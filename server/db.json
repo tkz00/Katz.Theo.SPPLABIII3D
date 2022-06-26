@@ -1,0 +1,34 @@
+{
+    "anuncios": [
+        {
+            "id":"0",
+            "title":"Test2",
+            "transactionType":"alquiler",
+            "description":"asdasdasd",
+            "price":"33000",
+            "numDoors":"4",
+            "numKM":"10000",
+            "numPotencia":"15"
+        },
+        {
+            "id":"1",
+            "title":"test3",
+            "transactionType":"alquiler",
+            "description":"test",
+            "price":"45000",
+            "numDoors":"9",
+            "numKM":"1",
+            "numPotencia":"1"
+        },
+        {
+            "id":"2",
+            "title":"auto zeta",
+            "transactionType":"venta",
+            "description":"zxczxc",
+            "price":"555",
+            "numDoors":"5",
+            "numKM":"5",
+            "numPotencia":"5"
+        }
+    ]
+}

@@ -1,0 +1,258 @@
+body{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+}
+
+.title{
+    text-align: center;
+    font-size: 24px;
+    font-weight: lighter;
+}
+
+.borderDiv{
+    border: 1px black solid;
+    padding: 20px;
+    margin: 0 0 20px 0;
+}
+
+.center{
+    margin: 0 auto;
+}
+
+form{
+    padding: 0 0 5px 0;
+    border-bottom: 1px black solid;
+}
+
+form p{
+    font-weight: lighter;
+    margin: 0 0 10px 0;
+}
+
+form label{
+    /* font-weight: bold; */
+    text-transform: uppercase;
+}
+
+form div{
+    margin: 10px 0;
+}
+
+form input[type=text]{
+    width: 100%;
+}
+
+form input[type=number]{
+    width: 100%;
+}
+
+form input[type=submit]{
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+}
+
+/* #submit-button{
+    background: green url('/assets/save-icon.png') no-repeat top left;
+    padding-left: 50px;
+    height: 30px;
+} */
+
+form textarea{
+    width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.car-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.car-info div{
+    display: flex;
+}
+
+.input-icon{
+    width: 30px;
+    margin-right: 5px;
+}
+
+button{
+    color: white;
+    border: none;
+    padding: 10px 30px;
+}
+
+#deleteButton{
+    background-color: orangered;
+}
+
+#cancelButton{
+    background-color: blue;
+}
+
+#id-col{
+    visibility: collapse;
+}
+
+td, th{
+    border: 1px black solid;
+    text-align: center;
+}
+
+thead tr {
+    background-color:rgb(221, 218, 21);
+}
+
+tbody tr:nth-child(even) {
+    background-color: #d1d1d1;
+}
+
+.selectedRow {
+    background-color: #fdb9c0 !important;
+}
+
+.hidden{
+    display: none !important;
+}
+
+#loadingSpinner {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+#loadingSpinner img{
+    width: 72px;
+    height:72px;
+}
+
+.header{
+    background-color: cornflowerblue;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 5rem;
+}
+
+.header .headerImage{
+    width: 150px;
+}
+
+.header .headerImage img{
+    width: 100%;
+    height: 100%;
+}
+
+.header .list{
+    list-style-type:none;
+}
+
+.header .list a{
+    color: white;
+    text-decoration: none;
+}
+
+.anuncios{
+    margin: 0 auto;   
+}
+
+.footer{
+    background-color: cornflowerblue;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem;
+}
+
+.footer .list{
+    list-style-type:none;
+    display: flex;
+    flex-direction: row;
+}
+
+.footer .list a{
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.anunciosCarousel{
+    display: flex;
+    justify-content: space-around;
+    margin: 5rem 0;
+}
+
+.anunciosCarousel .anuncio{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    border: 1px solid gray;
+    background-color: lightgray;
+    height: 200px;
+    width: 70vh;
+    margin: 0 2rem;
+}
+
+.anunciosCarousel .anuncio h2, h4, p{
+    margin: 5px 0;
+}
+
+.anunciosCarousel .anuncio .price{
+    color: green;
+    font-weight: bold;
+}
+
+.anunciosCarousel .anuncio .price::before{
+    content: "$";
+}
+
+.anunciosCarousel .anuncio .info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 1rem 0;
+}
+
+.anunciosCarousel .anuncio .info div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.anunciosCarousel .anuncio .info img{
+    width: 25px;
+    margin: 0 5px;
+}
+
+.anunciosCarousel .anuncio button{
+    background-color: orangered;
+    cursor:pointer;
+}
+
+.controls{
+    margin: 5px 0;
+}
+
+.mainBanner{
+    width: 100%;
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.mainBanner img{
+    width: 100%;
+}
+
+.mainBanner h2{
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    font-size: 72px;
+}
+
+.btn-success{
+    background-color: green !important;
+}

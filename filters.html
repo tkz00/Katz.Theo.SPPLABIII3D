@@ -1,30 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        <title>SP Laboratorio III</title>
+        <script src="./head.js"></script>
     </head>
-    <body>
-        <div class="header">
-            <div class="headerImage">
-                <a href="index.html">
-                    <img src="/assets/Logo.png" alt="Logo">
-                </a>
-            </div>
-
-            <ul class="list">
-                <li><a href="">Nosotros</a></li>
-                <li><a href="advertisements.html">Anuncios</a></li>
-                <li><a href="filters.html">Filtros</a></li>
-                <li><a href="">Blog</a></li>
-                <li><a href="">Contacto</a></li>
-            </ul>
-        </div>
+    <body class="d-flex flex-column min-vh-100">
+        <script src="./header.js"></script>
 
         <div class="col-lg-12">
             <div class="col-lg-4 center">
@@ -35,7 +15,7 @@
                             <select id="transactionTypeDropdown" class="form-select filter" aria-label="Default select example">
                                 <option value="venta">Venta</option>
                                 <option value="alquiler">Alquiler</option>
-                                <option value="todos">Todos</option>
+                                <option value="todos" selected="selected">Todos</option>
                               </select>
                         </div>
                         <div class="col">
@@ -47,37 +27,47 @@
 
                 <div class="filters">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input filter" type="checkbox" id="titleCheckbox" value="Titulo" checked>
+                        <input class="form-check-input filter" type="checkbox" id="titleCheckbox" value="title" checked>
                         <label class="form-check-label" for="titleCheckbox">Título</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input filter" type="checkbox" id="titleCheckbox" value="Titulo" checked>
-                        <label class="form-check-label" for="titleCheckbox">Título</label>
+                        <input class="form-check-input filter" type="checkbox" id="transactionCheckbox" value="transaction" checked>
+                        <label class="form-check-label" for="transactionCheckbox">Transacción</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input filter" type="checkbox" id="descriptionCheckbox" value="Descripción" checked>
+                        <input class="form-check-input filter" type="checkbox" id="descriptionCheckbox" value="description" checked>
                         <label class="form-check-label" for="descriptionCheckbox">Descripción</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input filter" type="checkbox" id="priceCheckbox" value="precio" checked>
+                        <input class="form-check-input filter" type="checkbox" id="priceCheckbox" value="price" checked>
                         <label class="form-check-label" for="priceCheckbox">Precio</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input filter" type="checkbox" id="numDoorsCheckbox" value="NUM_PUERTAS" checked>
+                        <input class="form-check-input filter" type="checkbox" id="numDoorsCheckbox" value="doors" checked>
                         <label class="form-check-label" for="numDoorsCheckbox">NUM_PUERTAS</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input filter" type="checkbox" id="kmsCheckbox" value="NUM_KMs" checked>
+                        <input class="form-check-input filter" type="checkbox" id="kmsCheckbox" value="kms" checked>
                         <label class="form-check-label" for="kmsCheckbox">NUM_KMs</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input filter" type="checkbox" id="powerCheckbox" value="Potencia" checked>
+                        <input class="form-check-input filter" type="checkbox" id="powerCheckbox" value="power" checked>
                         <label class="form-check-label" for="powerCheckbox">Potencia</label>
                     </div>
                 </div>
 
                 <div class="table-responsive-md">
-                    <table id="advertisementsTable" class="table">
+                    <table id="advertisementsTable" class="table table-striped">
+                        <colgroup>
+                            <col id="id-col">
+                            <col id="title-col">
+                            <col id="transaction-col">
+                            <col id="description-col">
+                            <col id="price-col">
+                            <col id="doors-col">
+                            <col id="kms-col">
+                            <col id="power-col">
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th>id</th>
@@ -85,7 +75,7 @@
                                 <th>transaccion</th>
                                 <th>descripción</th>
                                 <th>precio</th>
-                                <th>num_puretas</th>
+                                <th>num_puertas</th>
                                 <th>num_KMs</th>
                                 <th>Potencia</th>
                             </tr>
@@ -95,10 +85,12 @@
                 </div>
 
                 <div id="loadingSpinner" class="hidden">
-                    <img src="/assets/Wheel.gif" alt="Loading...">
+                    <img src="./assets/Wheel.gif" alt="Loading...">
                 </div>
             </div>
         </div>
+
+        <script src="./footer.js"></script>
 
         <script type="module" src="/scripts/filters.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>

@@ -1,37 +1,36 @@
 import Car_Advertisement from "./carAdvertisement.js";
 
-const storageName = "advertisements";
-
 window.addEventListener("load", function(e)
 {
-    UpdateAdvertisementsTable(storageName);
+    UpdateAdvertisementsTable();
 })
 
-document.querySelector("#advertisementForm").addEventListener("submit", function(e) {
+document.querySelector("#advertisementForm").addEventListener("submit", async function(e)
+{
     e.preventDefault();
     
-    const newAdvertisement = ReadFromData();
+    const advertisement = ReadFromData();
     
-    newAdvertisement.SaveAdvertisement(storageName);
+    await advertisement.SaveAdvertisement();
     
-    UpdateAdvertisementsTable(storageName);
+    UpdateAdvertisementsTable();
 });
 
-document.getElementById("modifyButton").addEventListener("click", function(e) {
-
-    const newAdvertisement = ReadFromData();
+document.getElementById("modifyButton").addEventListener("click", async function(e)
+{
+    const advertisement = ReadFromData();
     
-    newAdvertisement.SaveAdvertisement(storageName);
+    await advertisement.ModifyAdvertisement();
     
-    UpdateAdvertisementsTable(storageName);
+    UpdateAdvertisementsTable();
 });
 
-document.getElementById("deleteButton").addEventListener("click", function(e) {
+document.getElementById("deleteButton").addEventListener("click", async function(e) {
     if(document.getElementById("advertisementForm").getAttribute("data-id") != null)
     {
-        Car_Advertisement.RemoveAdvertisementById(document.getElementById("advertisementForm").getAttribute("data-id"), storageName);
+        await Car_Advertisement.RemoveAdvertisementById(document.getElementById("advertisementForm").getAttribute("data-id"));
 
-        UpdateAdvertisementsTable(storageName);
+        UpdateAdvertisementsTable();
 
         EmptyForm();
     }
@@ -57,7 +56,6 @@ function SetOnTrOnClickBehaviour()
 
 function ReadFromData()
 {
-    var newId = document.getElementById("advertisementForm").getAttribute("data-id") != null ? document.getElementById("advertisementForm").getAttribute("data-id") : Car_Advertisement.GetNewId(storageName);
     var newTitle = document.getElementById("title").value;
     var transactionType = document.querySelector('input[name="transactionType"]:checked').value;
     var description = document.getElementById("description").value;
@@ -66,27 +64,31 @@ function ReadFromData()
     var numKM = document.getElementById("numKM").value;
     var numPotencia = document.getElementById("numPotencia").value;
 
-    return new Car_Advertisement(newId, newTitle, transactionType, description, price, numDoors, numKM, numPotencia);
+    var advertisement = new Car_Advertisement(newTitle, transactionType, description, price, numDoors, numKM, numPotencia);
+    
+    if(document.getElementById('advertisementForm').getAttribute('data-id') != null)
+    {
+        advertisement.id = document.getElementById("advertisementForm").getAttribute("data-id");
+    }
+
+    return advertisement;
 }
 
-function UpdateAdvertisementsTable(storageName)
+async function UpdateAdvertisementsTable()
 {
     ShowLoader();
+    let anuncios = await Car_Advertisement.GetAdvertisements();
+    PopulateTable(anuncios);
+    RemoveLoader();
+}
 
-    setTimeout(RemoveLoader, 3000);
-
-    var advertisementsArray = Car_Advertisement.GetAdvertisements(storageName);
-
+function PopulateTable(advertisementsArray)
+{
     const table = document.getElementById("advertisementsTable");
-
     table.querySelector("tbody tr")?.remove();
-
     table.querySelector("tbody").innerHTML = GenerateRowsFromAdvertisements(advertisementsArray);
-
     SetOnTrOnClickBehaviour();
-
     DeselectAllRows();
-
     EmptyForm();
 }
 
@@ -106,13 +108,14 @@ function GenerateRowsFromAdvertisements(advertisementsArray)
     return newRows;
 }
 
-function SelectRow(row)
+async function SelectRow(row)
 {
     DeselectAllRows();
+    ShowControls();
 
     row.classList.add("selectedRow");
 
-    var advertisement = Car_Advertisement.GetAdvertisementById(row.dataset.id, storageName);
+    var advertisement = await Car_Advertisement.GetAdvertisementById(row.dataset.id);
 
     document.getElementById("advertisementForm").dataset.id = advertisement.id;
     document.getElementById("title").value = advertisement.title;

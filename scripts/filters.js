@@ -1,22 +1,70 @@
 import Car_Advertisement from "./carAdvertisement.js";
 
-const URL = "http://localhost:3000/anuncios";
-
 const filters = document.getElementsByClassName('filter');
 
-const inputChange = function() {
-    getAnunciosAjax(URL);
+const inputChange = function()
+{
+  ShowAdvertisements();
 }
 
 for(var i = 0; i < filters.length; i++)
 {
-    filters[i].addEventListener('change', inputChange, false);
+  filters[i].addEventListener('change', inputChange, false);
 }
 
 window.addEventListener("load", function(e)
 {
-    getAnunciosAjax(URL);
+  ShowAdvertisements();
 });
+
+async function ShowAdvertisements()
+{
+  EmptyTable();
+  ShowLoader();
+  ShowSelectedColumns();
+  let advertisements = await GetAdvertisements();
+  ShowAvg(advertisements);
+  PopulateTable(advertisements);
+  RemoveLoader();
+}
+
+async function GetAdvertisements()
+{
+    let advertisements = await Car_Advertisement.GetAdvertisements();
+    let transactionType = document.getElementById("transactionTypeDropdown").value;
+    if(transactionType != 'todos')
+    {
+      advertisements = advertisements.filter(anuncio => anuncio.transactionType == transactionType);
+    }
+    return advertisements;
+}
+
+function ShowAvg(advertisements)
+{
+  if(advertisements.length > 0)
+  {
+    let average = advertisements.reduce((total, advertisement) => parseInt(total) + parseInt(advertisement.price), 0) / advertisements.length;
+    document.getElementById("avgPrice").value = average;
+  }
+  else
+  {
+    document.getElementById("avgPrice").value = 'N/A';
+  }
+}
+
+function ShowSelectedColumns()
+{
+  document.querySelectorAll('input[type=checkbox]').forEach(element => {
+    if(element.checked)
+    {
+      document.getElementById(element.value + '-col').classList.remove('hidden-col');
+    }
+    else
+    {
+      document.getElementById(element.value + '-col').classList.add('hidden-col');
+    }
+  });
+}
 
 function ShowLoader()
 {
@@ -42,43 +90,12 @@ function EmptyTable()
     rows.forEach(e => e.remove());
 }
 
-const getAnunciosAjax = (url) => {
-    EmptyTable();
-
-    const xhr = new XMLHttpRequest();
-  
-    xhr.addEventListener("readystatechange", () => {
-      if (xhr.readyState == 4) {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          const data = JSON.parse(xhr.responseText);
-  
-          console.log(data);
-
-          setTimeout(PopulateTable.bind(null, data), 1500);
-        } else {
-          console.error(xhr.status, xhr.statusText);
-        }
-        setTimeout(RemoveLoader, 1500);
-      } else {
-        ShowLoader();
-      }
-    });
-  
-    xhr.open("GET", url);
-  
-    xhr.send();
-};
-
 function GenerateRowsFromAdvertisements(advertisementsArray)
 {
     var newRows = '';
     
     advertisementsArray.forEach(element => {
         var row = Car_Advertisement.NewRowFromAdvertisement(element);
-        // if(document.getElementById("advertisementForm").getAttribute("data-id") == element.id)
-        // {
-        //     row.classList.add("selectedRow");
-        // }
         newRows += row.outerHTML;
     });
 

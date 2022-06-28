@@ -1,5 +1,16 @@
 {
   "dependencies": {
     "bootstrap": "^5.2.0-beta1"
-  }
+  },
+  "name": "json-server",
+  "version": "1.0.0",
+  "main": "footer.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "json-server -w db.json -d2000"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

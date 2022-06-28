@@ -1,15 +1,14 @@
 import Car_Advertisement from "./carAdvertisement.js";
 
-const storageName = "advertisements";
-
 window.addEventListener("load", function(e)
 {
-    LoadAdvertisements(storageName);
+    LoadAdvertisements();
 });
 
-function LoadAdvertisements(storageName)
+async function LoadAdvertisements()
 {
-    var advertisementsArray = Car_Advertisement.GetAdvertisements(storageName);
+    ShowLoader();
+    var advertisementsArray = await Car_Advertisement.GetAdvertisements();
 
     var html = '';
     
@@ -19,6 +18,8 @@ function LoadAdvertisements(storageName)
     });
 
     document.getElementsByClassName("anunciosCarousel")[0].innerHTML = html;
+
+    RemoveLoader();
 }
 
 function NewDivFromAdvertisement(advertisement)
@@ -31,8 +32,8 @@ function NewDivFromAdvertisement(advertisement)
 
     html += '<div class="info">';
     html += '<div><img src="/assets/car-door.png">' + advertisement.numDoors + '</div>';
-    html += '<div><img src="km.png">' + advertisement.numKM + '</div>';
-    html += '<div><img src="engine.png">' + advertisement.numPotencia + '</div>';
+    html += '<div><img src="/assets/km.png">' + advertisement.numKM + '</div>';
+    html += '<div><img src="/assets/engine.png">' + advertisement.numPotencia + '</div>';
     html += '</div>';
 
     html += '<button type="button">Ver Vehiculo</button>';
@@ -40,4 +41,14 @@ function NewDivFromAdvertisement(advertisement)
     element.innerHTML = html.trim();
 
     return element;
+}
+
+function ShowLoader()
+{
+    document.getElementById("loadingSpinner").classList.remove("hidden");
+}
+
+function RemoveLoader()
+{
+    document.getElementById("loadingSpinner").classList.add("hidden");
 }

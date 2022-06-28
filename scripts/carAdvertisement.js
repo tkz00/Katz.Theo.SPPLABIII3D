@@ -1,66 +1,22 @@
 import {Advertisement}  from "./advertisement.js";
 
+const URL = "http://localhost:3000/anuncios";
+
 export default class Car_Advertisement extends Advertisement{
-    constructor(id, title, transactionType, description, price, numDoors, numKM, numPotencia)
+    // constructor(id, title, transactionType, description, price, numDoors, numKM, numPotencia)
+    // {
+    //     super(id, title, transactionType, description, price);
+    //     this.numDoors = numDoors;
+    //     this.numKM = numKM;
+    //     this.numPotencia = numPotencia;
+    // }
+
+    constructor(title, transactionType, description, price, numDoors, numKM, numPotencia)
     {
-        super(id, title, transactionType, description, price);
+        super(title, transactionType, description, price);
         this.numDoors = numDoors;
         this.numKM = numKM;
         this.numPotencia = numPotencia;
-    }
-
-    SaveAdvertisement(storageName)
-    {
-        var advertisementsArray = Car_Advertisement.GetAdvertisements(storageName);
-
-        Car_Advertisement.AddAdvertisementToArray(advertisementsArray, this);
-
-        Car_Advertisement.SaveAdvertisements(advertisementsArray, storageName);
-    }
-
-    static SaveAdvertisements(advertisements, storageName)
-    {
-        localStorage.setItem(storageName, JSON.stringify(advertisements));
-    }
-
-    static GetAdvertisements(storageName)
-    {
-        return JSON.parse(localStorage.getItem(storageName) || "[]");
-    }
-
-    static AddAdvertisementToArray(advertisementsArray, newAdvertisement)
-    {
-        if(advertisementsArray.length > 0)
-        {
-            for(var i = 0; i < advertisementsArray.length; i++)
-            {
-                if(advertisementsArray[i].id == newAdvertisement.id)
-                {
-                    advertisementsArray[i] = newAdvertisement;
-                    return;
-                }
-            }
-
-            advertisementsArray.push(newAdvertisement);
-        }
-        else
-        {
-            advertisementsArray.push(newAdvertisement);
-        }
-    }
-
-    static GetNewId(storageName)
-    {
-        var advertisements = this.GetAdvertisements(storageName);
-        var newId = 0;
-        advertisements.forEach(element => {
-            if(newId <= element.id)
-            {
-                newId = parseInt(element.id) + 1;
-            }
-        });
-    
-        return newId;
     }
 
     static NewRowFromAdvertisement(advertisement)
@@ -80,33 +36,167 @@ export default class Car_Advertisement extends Advertisement{
         return element;
     }
 
-    static GetAdvertisementById(id, storageName)
+    // The Save and Modify methods do not have a setTimeout since everytime they are executed the table is reloaded, and this action already has a setTimeout.
+    SaveAdvertisement()
     {
-        var returnValue;
-        var advertisement = Car_Advertisement.GetAdvertisements(storageName);
-
-        advertisement.forEach(element => {
-            if(element.id == parseInt(id, 10))
-            {
-                returnValue = element;
-            }
-        });
-
-        return returnValue;
-    }
-
-    static RemoveAdvertisementById(id, storageName)
-    {
-        var advertisements = Car_Advertisement.GetAdvertisements(storageName);
-
-        for(var i = 0; i < advertisements.length; i++)
+        if(this.hasOwnProperty('id'))
         {
-            if(advertisements[i].id == parseInt(id, 10))
-            {
-                advertisements.splice(i, 1);
-            }
+            delete this.id;
         }
 
-        Car_Advertisement.SaveAdvertisements(advertisements, storageName);
+        var data = JSON.stringify(this);
+
+        return new Promise((res, rej) => {
+            const xhr = new XMLHttpRequest();
+            
+            xhr.addEventListener("readystatechange", () => {
+                if (xhr.readyState == 4)
+                {
+                    if (xhr.status >= 200 && xhr.status < 300)
+                    {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        // console.log(response);
+
+                        res(response);
+                    }
+                    else
+                    {
+                        console.error(xhr.status, xhr.statusText);
+                        rej("Error");
+                    }
+                }
+            });
+            
+            xhr.open("POST", URL);
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            
+            xhr.send(data);
+        });
+    }
+
+    // The Save and Modify methods do not have a setTimeout since everytime they are executed the table is reloaded, and this action already has a setTimeout.
+    ModifyAdvertisement()
+    {
+        var data = JSON.stringify(this);
+        var newURL = URL + '/' + parseInt(this.id, 10);
+
+        return new Promise((res, rej) => {
+            const xhr = new XMLHttpRequest();
+
+            xhr.addEventListener("readystatechange", () => {
+                if (xhr.readyState == 4)
+                {
+                    if (xhr.status >= 200 && xhr.status < 300)
+                    {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        // console.log(response);
+
+                        res(response);
+                    }
+                    else
+                    {
+                        console.error(xhr.status, xhr.statusText);
+                        rej("Error");
+                    }
+                }
+            });
+            
+            xhr.open("PUT", newURL);
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(data);
+        });
+    }
+
+    static GetAdvertisements()
+    {
+        return new Promise((res, rej) => {
+            const xhr = new XMLHttpRequest();
+        
+            xhr.addEventListener("readystatechange", () => {
+                if (xhr.readyState == 4)
+                {
+                    if (xhr.status >= 200 && xhr.status < 300)
+                    {
+                        const data = JSON.parse(xhr.responseText);
+                
+                        // console.log(data);
+
+                        setTimeout(() => { res(data) }, 3000);
+                    }
+                    else
+                    {
+                        console.error(xhr.status, xhr.statusText);
+                        rej("Error");
+                    }
+                }
+            });
+        
+            xhr.open("GET", URL);
+            xhr.send();
+        });
+    }
+
+    static GetAdvertisementById(id)
+    {
+        return new Promise((res, rej) => {
+            var newURL = URL + '/' + parseInt(id, 10);
+            const xhr = new XMLHttpRequest();
+            
+            xhr.addEventListener("readystatechange", () => {
+                if (xhr.readyState == 4)
+                {
+                    if (xhr.status >= 200 && xhr.status < 300)
+                    {
+                        const data = JSON.parse(xhr.responseText);
+                
+                        // console.log(data);
+
+                        res(data);
+                    }
+                    else
+                    {
+                        console.error(xhr.status, xhr.statusText);
+                        rej("Error");
+                    }
+                }
+            });
+        
+            xhr.open("GET", newURL);
+            xhr.send();
+        });
+    }
+
+    static RemoveAdvertisementById(id)
+    {
+        return new Promise((res, rej) => {
+            var newURL = URL + '/' + parseInt(id, 10);
+            const xhr = new XMLHttpRequest();
+            
+            xhr.addEventListener("readystatechange", () => {
+                if (xhr.readyState == 4)
+                {
+                    if (xhr.status >= 200 && xhr.status < 300)
+                    {
+                        const data = JSON.parse(xhr.responseText);
+                
+                        // console.log(data);
+
+                        res(data);
+                    }
+                    else
+                    {
+                        console.error(xhr.status, xhr.statusText);
+                        rej("Error");
+                    }
+                }
+            });
+        
+            xhr.open("DELETE", newURL);
+            xhr.send();
+        });
     }
 }

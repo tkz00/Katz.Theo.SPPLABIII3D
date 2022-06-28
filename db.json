@@ -1,19 +1,44 @@
 {
-  "posts": [
+  "anuncios": [
+    {
+      "id": 0,
+      "title": "Ferrari",
+      "transactionType": "venta",
+      "description": "Rapido",
+      "price": "33000",
+      "numDoors": "2",
+      "numKM": "0",
+      "numPotencia": "8000"
+    },
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
+      "title": "Falcon",
+      "transactionType": "venta",
+      "description": "Confiable",
+      "price": "29000",
+      "numDoors": "4",
+      "numKM": "20000",
+      "numPotencia": "5500"
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "title": "Corolla",
+      "transactionType": "alquiler",
+      "description": "Elegante",
+      "price": "9900",
+      "numDoors": "4",
+      "numKM": "10000",
+      "numPotencia": "1500",
+      "id": 5
+    },
+    {
+      "title": "Ford Focus",
+      "transactionType": "venta",
+      "description": "Perfecto estado",
+      "price": "6666",
+      "numDoors": "4",
+      "numKM": "1000",
+      "numPotencia": "4",
+      "id": 6
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }
